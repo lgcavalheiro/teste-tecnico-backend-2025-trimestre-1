@@ -1,4 +1,7 @@
 # teste-tecnico-backend-2025-trimestre-1
+Data início: 25/05/2025 - 23:01h
+
+
 Teste técnico para a posição de Backend Dev. Edição do primeiro trimestre de 2025.
 
 ## A proposta: Upload e Streaming de Vídeos + Cache + Docker
