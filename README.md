@@ -1,5 +1,6 @@
 # teste-tecnico-backend-2025-trimestre-1
 Data início: 25/05/2025 - 23:01h
+Data fim: 26/05/2025 - 15:01h
 
 Teste técnico para a posição de Backend Dev. Edição do primeiro trimestre de 2025.
 
