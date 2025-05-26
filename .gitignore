@@ -1,6 +1,6 @@
 # Project specific
 uploads/
-
+coverage/
 # Dependencies
 node_modules/
 

@@ -20,6 +20,18 @@ docker compose up -d --build
 
 Nota: Projeto criado usando Docker 28.1.1, caso sua versão seja diferente, talvez seja necessário ajustar os comandos para usar `docker-compose`.
 
+### Testes
+
+```bash
+npm run test
+```
+
+### Testes com cobertura
+
+```bash
+npm run test:coverage
+```
+
 ## A proposta: Upload e Streaming de Vídeos + Cache + Docker
 
 A ideia é bem simples:
