@@ -1,6 +1,7 @@
 import { Readable } from 'stream';
 import { IFileStorageService } from '../interfaces/IFileStorageService';
 import { ICacheService } from '../interfaces/ICacheService';
+import { PassThrough } from 'stream';
 
 export class CachingFileStorageService implements IFileStorageService {
   private static DEFAULT_CACHE_TTL = 60; // 60 seconds
@@ -11,8 +12,11 @@ export class CachingFileStorageService implements IFileStorageService {
     private readonly cacheService: ICacheService
   ) {}
 
-  private getCacheKey(filename: string): string {
-    return `${this.cachePrefix}${filename}`;
+  private getCacheKey(filename: string, range?: { start?: number; end?: number }): string {
+    if (!range) {
+      return `${this.cachePrefix}${filename}:full`;
+    }
+    return `${this.cachePrefix}${filename}:${range.start ?? 'start'}-${range.end ?? 'end'}`;
   }
 
   async saveFile(filename: string, content: Buffer): Promise<void> {
@@ -53,24 +57,15 @@ export class CachingFileStorageService implements IFileStorageService {
   }
 
   createReadStream(filename: string, start?: number, end?: number): Readable {
-    const cacheKey = this.getCacheKey(filename);
+    const cacheKey = this.getCacheKey(filename, { start, end });
     
-    const { PassThrough } = require('stream');
     const passThrough = new PassThrough();
     
     this.cacheService.get<string>(cacheKey)
       .then(cachedData => {
         if (cachedData) {
           const buffer = Buffer.from(cachedData, 'base64');
-          let content = buffer;
-          
-          if (start !== undefined && end !== undefined) {
-            content = buffer.slice(start, end + 1);
-          } else if (start !== undefined) {
-            content = buffer.slice(start);
-          }
-          
-          passThrough.end(content);
+          passThrough.end(buffer);
         } else {
           const fileStream = this.fileStorage.createReadStream(filename, start, end);
           fileStream.pipe(passThrough);
@@ -80,7 +75,7 @@ export class CachingFileStorageService implements IFileStorageService {
           fileStream.on('end', () => {
             const fileContent = Buffer.concat(chunks);
             this.cacheService.set(
-              cacheKey, 
+              cacheKey,
               fileContent.toString('base64'), 
               CachingFileStorageService.DEFAULT_CACHE_TTL
             ).catch(console.error);
