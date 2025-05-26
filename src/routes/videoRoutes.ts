@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { VideoController } from '../controllers/videoController';
+import { VideoController } from '../controllers/VideoController';
 import { handleVideoUpload } from '../middleware/upload';
-import { serviceContainer } from '../services/serviceContainer';
+import { serviceContainer } from '../services/ServiceContainer';
 
 const router = Router();
 

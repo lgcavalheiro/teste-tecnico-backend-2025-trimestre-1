@@ -48,17 +48,18 @@ export class ServiceContainer {
     if (cb) cb();
   }
 
-  public getFileStorageService(): IFileStorageService {
-    if (!this.isInitialized) {
+  private checkInitialization(): void {
+    if (!this.isInitialized)
       throw new Error('ServiceContainer has not been initialized. Call initialize() first.');
-    }
+  }
+
+  public getFileStorageService(): IFileStorageService {
+    this.checkInitialization();
     return this.fileStorageService;
   }
 
   public getRedisCacheService(): RedisCacheService {
-    if (!this.isInitialized) {
-      throw new Error('ServiceContainer has not been initialized. Call initialize() first.');
-    }
+    this.checkInitialization();
     return this.redisCacheService;
   }
 }
