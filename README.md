@@ -1,8 +1,24 @@
 # teste-tecnico-backend-2025-trimestre-1
 Data início: 25/05/2025 - 23:01h
 
-
 Teste técnico para a posição de Backend Dev. Edição do primeiro trimestre de 2025.
+
+## Instruções de execução
+
+### Sem docker
+Nota: Deve-se ter o redis instalado e rodando localmente, com url e porta esperadas pela aplicação. Caso contrário, pode-se rodar o comando `docker compose up -d --build redis` para iniciar apenas o redis.
+
+```bash
+npm install
+npm run dev
+```
+
+### Com docker
+```bash
+docker compose up -d --build
+```
+
+Nota: Projeto criado usando Docker 28.1.1, caso sua versão seja diferente, talvez seja necessário ajustar os comandos para usar `docker-compose`.
 
 ## A proposta: Upload e Streaming de Vídeos + Cache + Docker
 
